@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from statistics import median
 import networkx as nx
-import warnings
 
 st.set_page_config(page_title="BRA Serie A Overview")
 
