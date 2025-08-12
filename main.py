@@ -100,10 +100,11 @@ def get_team() -> None:
 
 
     team_stats = collection.aggregate([{"$match": {"general.season": YEAR, "general.league": LEAGUE, 
-                                    "$or": [{"teams.home.name": st.session_state['squad']}, {"teams.away.name": st.session_state['squad']}]}}, {"$project": {"_id": 0, "teams.home.name": 1, 
+                                    "$or": [{"teams.home.name": st.session_state['squad']}, {"teams.away.name": st.session_state['squad']}]}}, {"$project": {"_id": 0, "general.round": 1, "teams.home.name": 1, 
                                                                                                                                 "teams.away.name": 1, 'stats.xg_op_for_100_passes.home': 1, 
                                                                                                                                 "stats.xg_op_for_100_passes.away": 1, "formations.home": 1, 
                                                                                                                                 "formations.away": 1}}])
+    round = []
     opponents = []
     xg_for = []
     xg_opp = []
@@ -117,7 +118,8 @@ def get_team() -> None:
         else:
             venue = 'away'
             venue_opp = 'home'
-            
+
+        round.append(f['general']['round'])
         opponents.append(f['teams'][venue_opp]['name'])
         xg_for.append(f['stats']['xg_op_for_100_passes'][venue])
         xg_opp.append(f['stats']['xg_op_for_100_passes'][venue_opp])
@@ -125,6 +127,7 @@ def get_team() -> None:
         formation_opp.append(f"{f['formations'][venue_opp]}*")
 
     df2 = pd.DataFrame({
+        "Round": round, 
         "Opponent": opponents, 
         'xG Open Play Per 100 Passes For': xg_for, 
         'xG Open Play Per 100 Passes Opp': xg_opp, 
