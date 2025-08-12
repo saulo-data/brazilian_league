@@ -103,7 +103,7 @@ def get_team() -> None:
                                     "$or": [{"teams.home.name": st.session_state['squad']}, {"teams.away.name": st.session_state['squad']}]}}, {"$project": {"_id": 0, "general.date_utc": 1, "general.round": 1, "teams.home.name": 1, 
                                                                                                                                 "teams.away.name": 1, 'stats.xg_op_for_100_passes.home': 1, 
                                                                                                                                 "stats.xg_op_for_100_passes.away": 1, "formations.home": 1, 
-                                                                                                                                "formations.away": 1}}, {"$sort": {"general.date_utc": 1}])
+                                                                                                                                "formations.away": 1}}, {"$sort": {"general.date_utc": 1}}])
     round = []
     opponents = []
     xg_for = []
